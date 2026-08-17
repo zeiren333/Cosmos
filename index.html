@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ø - Cosmos</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="#home" class="header__logo" data-page="home">
+            <i data-lucide="orbit"></i>
+        </a>
+
+        <nav class="header__nav">
+            <a href="#home" class="header__link header__link--active" data-page="home">
+                Home
+            </a>
+
+            <a href="#about" class="header__link" data-page="about">
+                About
+            </a>
+
+            <a href="#projects" class="header__link" data-page="projects">
+                Cosmos
+            </a>
+
+            <a href="#contact" class="header__link" data-page="contact">
+                Contact
+            </a>
+        </nav>
+    </header>
+
+    <main class="site">
+
+        <section class="page page--active" id="home">
+            <div class="page__content page__content--home">
+
+                <div class="page__label">
+                    <span class="page__label-dot"></span>
+                    КОСМОС
+                </div>
+
+                <h1 class="page__title">
+                    За пределами
+                    <span class="page__title-accent">звёзд есть ещё больше.</span>
+                </h1>
+
+                <p class="page__description">
+                    Космос огромный и красивый. В нём есть звёзды,
+                    планеты, галактики и многое другое. Мне нравится
+                    смотреть на ночное небо и узнавать больше о Вселенной.
+                </p>
+
+                <div class="page__actions">
+                    <a href="#about" data-page="about" class="button button--glass">
+                        Обо мне
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+
+                    <a href="#projects" data-page="projects" class="button button--text">
+                        Смотреть космос
+                    </a>
+                </div>
+
+                <div class="page__stats">
+                    <div class="stat">
+                        <strong class="stat__value">∞</strong>
+                        <span class="stat__label">Пространство</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong class="stat__value">13.8B</strong>
+                        <span class="stat__label">Лет Вселенной</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong class="stat__value">∞</strong>
+                        <span class="stat__label">Неизвестное</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="page" id="about">
+            <div class="page__content">
+
+                <div class="page__heading">
+                    <div class="page__label">
+                        <span class="page__label-dot"></span>
+                        ОБО МНЕ
+                    </div>
+
+                    <h2 class="page__subtitle">
+                        Почему мне нравится
+                        <span class="page__subtitle-accent">
+                            космос.
+                        </span>
+                    </h2>
+                </div>
+
+                <div class="about">
+
+                    <article class="glass-card glass-card--large">
+                        <div class="glass-card__icon">
+                            <i data-lucide="sparkles"></i>
+                        </div>
+
+                        <h3 class="glass-card__title">
+                            Космос
+                        </h3>
+
+                        <p class="glass-card__text">
+                            Мне нравится космос из-за его масштаба.
+                            Ночью можно просто посмотреть на небо
+                            и увидеть огромное количество звёзд.
+                        </p>
+                        
+                        <p class="glass-card__text">
+                            Мы видим только маленькую часть Вселенной.
+                            Где-то очень далеко находятся другие звёзды,
+                            планеты и галактики, о которых мы знаем очень мало.
+                        </p>
+                        <img
+                            src="galaxy-1.png"
+                            alt="Galaxy"
+                            class="glass-card__image"
+                        >
+
+                    </article>
+
+                    <article class="glass-card">
+                        <div class="glass-card__icon">
+                            <i data-lucide="telescope"></i>
+                        </div>
+
+                        <h3 class="glass-card__title">
+                            Астрономия
+                        </h3>
+
+                        <ul class="feature-list">
+                            <li class="feature-list__item">
+                                Звёзды
+                            </li>
+
+                            <li class="feature-list__item">
+                                Планеты
+                            </li>
+
+                            <li class="feature-list__item">
+                                Галактики
+                            </li>
+
+                            <li class="feature-list__item">
+                                Чёрные дыры
+                            </li>
+
+                            <li class="feature-list__item">
+                                Космические миссии
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="glass-card">
+                        <div class="glass-card__icon">
+                            <i data-lucide="moon"></i>
+                        </div>
+
+                        <h3 class="glass-card__title">
+                            Ночное небо
+                        </h3>
+
+                        <p class="glass-card__text">
+                            Мне нравится смотреть на ночное небо.
+                            Даже без телескопа можно увидеть Луну,
+                            планеты и много ярких звёзд.
+                        </p>
+                    </article>
+
+                    <article class="glass-card">
+                        <div class="glass-card__icon">
+                            <i data-lucide="orbit"></i>
+                        </div>
+
+                        <h3 class="glass-card__title">
+                            Интерес
+                        </h3>
+
+                        <p class="glass-card__text">
+                            Космос постоянно заставляет задавать новые
+                            вопросы. Поэтому мне интересно читать,
+                            смотреть и узнавать что-то новое об астрономии.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="page" id="projects">
+            <div class="page__content">
+
+                <div class="page__heading">
+                    <div class="page__label">
+                        <span class="page__label-dot"></span>
+                        КОСМОС
+                    </div>
+
+                    <h2 class="page__subtitle">
+                        Что мне интересно
+                        <span class="page__subtitle-accent">
+                            изучать.
+                        </span>
+                    </h2>
+                </div>
+
+                <div class="cosmos">
+
+                    <article class="cosmos-card">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">01</span>
+                            <i data-lucide="sun"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ЗВЕЗДЫ
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Звёзды
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Огромные горячие шары газа.
+                                Они светятся и выделяют много энергии.
+                                Наше Солнце тоже является звездой.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__tags">
+                            <span>Свет</span>
+                            <span>Газ</span>
+                            <span>Энергия</span>
+                        </div>
+                    </article>
+
+                    <article class="cosmos-card">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">02</span>
+                            <i data-lucide="circle-dot"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ГАЛАКТИКИ
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Галактики
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Большие системы из звёзд, газа и пыли.
+                                Мы живём в галактике Млечный Путь.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__tags">
+                            <span>Млечный Путь</span>
+                            <span>Звёзды</span>
+                        </div>
+                    </article>
+
+                    <article class="cosmos-card">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">03</span>
+                            <i data-lucide="circle"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ПЛАНЕТЫ
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Планеты
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Большие тела, которые вращаются вокруг звёзд.
+                                Они бывают каменными и газовыми.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__tags">
+                            <span>Земля</span>
+                            <span>Марс</span>
+                            <span>Юпитер</span>
+                        </div>
+                    </article>
+
+                    <article class="cosmos-card">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">04</span>
+                            <i data-lucide="circle-dot-dashed"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ГЛУБОКИЙ КОСМОС
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Чёрные дыры
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Области космоса с очень сильной гравитацией.
+                                Даже свет не может выбраться оттуда.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__tags">
+                            <span>Гравитация</span>
+                            <span>Космос</span>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="page" id="contact">
+            <div class="page__content page__content--contact">
+
+                <div class="page__heading">
+                    <div class="page__label">
+                        <span class="page__label-dot"></span>
+                        КОНТАКТЫ
+                    </div>
+
+                    <h2 class="page__subtitle">
+                        Поговорим о
+                        <span class="page__subtitle-accent">
+                            космосе.
+                        </span>
+                    </h2>
+                </div>
+
+                <p class="contact__description">
+                    Если тебе тоже интересен космос или астрономия,
+                    можешь написать мне. Можно обсудить звёзды,
+                    планеты, фотографии космоса или просто пообщаться.
+                </p>
+
+                <div class="contact">
+
+                    <a href="https://github.com/zeiren333"
+                    class="contact-card"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                        <i data-lucide="github"></i>
+
+                        <div class="contact-card__content">
+                            <span class="contact-card__label">
+                                GitHub
+                            </span>
+
+                            <strong class="contact-card__value">
+                                zeiren333
+                            </strong>
+                        </div>
+
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+
+                    <a href="https://t.me/zeiren333larp"
+                    class="contact-card"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                        <i data-lucide="send"></i>
+
+                        <div class="contact-card__content">
+                            <span class="contact-card__label">
+                                Telegram
+                            </span>
+
+                            <strong class="contact-card__value">
+                                @zeiren333larp
+                            </strong>
+                        </div>
+
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+
+                    <a href="https://discord.com/users/1534202220931715145"
+                    class="contact-card"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                        <i data-lucide="message-circle"></i>
+
+                        <div class="contact-card__content">
+                            <span class="contact-card__label">
+                                Discord
+                            </span>
+
+                            <strong class="contact-card__value">
+                                zeiren333
+                            </strong>
+                        </div>
+
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
