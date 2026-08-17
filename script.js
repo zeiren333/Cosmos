@@ -1,8 +1,12 @@
 const pages = document.querySelectorAll(".page");
 const links = document.querySelectorAll("[data-page]");
 const header = document.querySelector(".header");
-const mobileNav = document.getElementById("mobileNav");
-const mobileToggle = document.getElementById("mobileToggle");
+
+const mobileNav =
+    document.getElementById("mobileNav");
+
+const mobileToggle =
+    document.getElementById("mobileToggle");
 
 const preloadScreen =
     document.getElementById("preloadScreen");
@@ -40,7 +44,96 @@ function closeMobileNav() {
     }
 }
 
+function toggleMobileNav(event) {
+    if (!mobileNav || !mobileToggle) {
+        return;
+    }
+
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const isOpen =
+        mobileNav.classList.contains(
+            "mobile-nav--open"
+        );
+
+    if (isOpen) {
+        closeMobileNav();
+        return;
+    }
+
+    mobileNav.classList.add(
+        "mobile-nav--open"
+    );
+
+    mobileToggle.classList.add(
+        "header__toggle--open"
+    );
+
+    mobileToggle.setAttribute(
+        "aria-expanded",
+        "true"
+    );
+}
+
+if (mobileToggle) {
+    mobileToggle.addEventListener(
+        "click",
+        toggleMobileNav
+    );
+}
+
+if (mobileNav) {
+    mobileNav
+        .querySelectorAll("[data-page]")
+        .forEach((link) => {
+            link.addEventListener(
+                "click",
+                () => {
+                    closeMobileNav();
+                }
+            );
+        });
+}
+
+document.addEventListener(
+    "click",
+    (event) => {
+        if (
+            !mobileNav ||
+            !mobileToggle
+        ) {
+            return;
+        }
+
+        if (
+            mobileNav.classList.contains(
+                "mobile-nav--open"
+            ) &&
+            !mobileNav.contains(
+                event.target
+            ) &&
+            !mobileToggle.contains(
+                event.target
+            )
+        ) {
+            closeMobileNav();
+        }
+    }
+);
+
 function showPage(pageName) {
+    const page =
+        document.getElementById(
+            pageName
+        );
+
+    if (!page) {
+        pageName = "home";
+    }
+
     pages.forEach((page) => {
         page.classList.remove(
             "page--active"
@@ -53,11 +146,13 @@ function showPage(pageName) {
         );
     });
 
-    const page =
-        document.getElementById(pageName);
+    const activePage =
+        document.getElementById(
+            pageName
+        );
 
-    if (page) {
-        page.classList.add(
+    if (activePage) {
+        activePage.classList.add(
             "page--active"
         );
     }
@@ -91,6 +186,10 @@ links.forEach((link) => {
             const pageName =
                 link.dataset.page;
 
+            if (!pageName) {
+                return;
+            }
+
             showPage(pageName);
 
             history.pushState(
@@ -114,28 +213,6 @@ window.addEventListener(
         showPage(pageName);
     }
 );
-
-if (mobileToggle && mobileNav) {
-    mobileToggle.addEventListener(
-        "click",
-        () => {
-            const isOpen =
-                mobileNav.classList.toggle(
-                    "mobile-nav--open"
-                );
-
-            mobileToggle.classList.toggle(
-                "header__toggle--open",
-                isOpen
-            );
-
-            mobileToggle.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
-        }
-    );
-}
 
 const cursor = {
     x: window.innerWidth / 2,
@@ -357,6 +434,450 @@ showPage(initialPage);
 
 revealVisible();
 
+const spaceFacts = [
+    {
+        q: "Один день на Венере длиннее её года",
+        a: "Венера вращается вокруг своей оси настолько медленно, что один оборот занимает 243 земных дня - больше, чем 225 дней, за которые она облетает Солнце."
+    },
+    {
+        q: "Свет от Солнца идёт до нас 8 минут",
+        a: "Расстояние от Солнца до Земли фотон преодолевает примерно за 8 минут 20 секунд."
+    },
+    {
+        q: "В космосе нет звука",
+        a: "Звук - это колебания частиц среды, а космос - почти идеальный вакуум."
+    },
+    {
+        q: "Нейтронная звезда невероятно плотная",
+        a: "Чайная ложка вещества нейтронной звезды весила бы на Земле около миллиарда тонн."
+    },
+    {
+        q: "Млечный Путь огромен",
+        a: "Диаметр Млечного Пути составляет примерно 100000 световых лет."
+    },
+    {
+        q: "На Марсе находится Олимп",
+        a: "Олимп - крупнейший известный вулкан Солнечной системы. Его высота составляет около 22 километров."
+    },
+    {
+        q: "Юпитер очень быстро вращается",
+        a: "Один оборот вокруг своей оси Юпитер совершает примерно за 10 часов."
+    },
+    {
+        q: "Солнце содержит почти всю массу Солнечной системы",
+        a: "На долю Солнца приходится примерно 99,8 процента массы всей Солнечной системы."
+    }
+];
+
+const factTitle =
+    document.getElementById(
+        "factTitle"
+    );
+
+const factText =
+    document.getElementById(
+        "factText"
+    );
+
+const factButton =
+    document.getElementById(
+        "factButton"
+    );
+
+let lastFactIndex = -1;
+
+function showRandomFact() {
+    if (
+        !factTitle ||
+        !factText ||
+        spaceFacts.length === 0
+    ) {
+        return;
+    }
+
+    let index =
+        Math.floor(
+            Math.random() *
+            spaceFacts.length
+        );
+
+    while (
+        spaceFacts.length > 1 &&
+        index === lastFactIndex
+    ) {
+        index =
+            Math.floor(
+                Math.random() *
+                spaceFacts.length
+            );
+    }
+
+    lastFactIndex = index;
+
+    const fact =
+        spaceFacts[index];
+
+    const card =
+        factTitle.closest(
+            ".fact-card"
+        );
+
+    if (card) {
+        card.classList.remove(
+            "fact-card--in"
+        );
+
+        void card.offsetWidth;
+
+        card.classList.add(
+            "fact-card--in"
+        );
+    }
+
+    factTitle.textContent =
+        fact.q;
+
+    factText.textContent =
+        fact.a;
+}
+
+if (factButton) {
+    factButton.addEventListener(
+        "click",
+        showRandomFact
+    );
+
+    showRandomFact();
+}
+
+const factsAccordion =
+    document.getElementById(
+        "factsAccordion"
+    );
+
+if (factsAccordion) {
+    spaceFacts.forEach(
+        (fact, index) => {
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "accordion-item reveal";
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "accordion-item__trigger";
+
+            button.type =
+                "button";
+
+            button.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            button.innerHTML = `
+                <span class="accordion-item__number">
+                    ${String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span class="accordion-item__question">
+                    ${fact.q}
+                </span>
+
+                <i
+                    data-lucide="chevron-down"
+                    class="accordion-item__chevron"
+                ></i>
+            `;
+
+            const panel =
+                document.createElement(
+                    "div"
+                );
+
+            panel.className =
+                "accordion-item__panel";
+
+            panel.innerHTML = `
+                <p>${fact.a}</p>
+            `;
+
+            button.addEventListener(
+                "click",
+                () => {
+                    const isOpen =
+                        item.classList.toggle(
+                            "accordion-item--open"
+                        );
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        String(isOpen)
+                    );
+                }
+            );
+
+            item.appendChild(
+                button
+            );
+
+            item.appendChild(
+                panel
+            );
+
+            factsAccordion.appendChild(
+                item
+            );
+        }
+    );
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+    revealVisible();
+}
+
+const cosmosModal =
+    document.getElementById(
+        "cosmosModal"
+    );
+
+const cosmosModalTitle =
+    document.getElementById(
+        "cosmosModalTitle"
+    );
+
+const cosmosModalText =
+    document.getElementById(
+        "cosmosModalText"
+    );
+
+const cosmosModalClose =
+    document.getElementById(
+        "cosmosModalClose"
+    );
+
+function openCosmosModal(
+    title,
+    detail
+) {
+    if (
+        !cosmosModal ||
+        !cosmosModalTitle ||
+        !cosmosModalText
+    ) {
+        return;
+    }
+
+    cosmosModalTitle.textContent =
+        title;
+
+    cosmosModalText.textContent =
+        detail;
+
+    cosmosModal.classList.add(
+        "modal--open"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+function closeCosmosModal() {
+    if (!cosmosModal) {
+        return;
+    }
+
+    cosmosModal.classList.remove(
+        "modal--open"
+    );
+
+    document.body.style.removeProperty(
+        "overflow"
+    );
+}
+
+document
+    .querySelectorAll(
+        ".cosmos-card__more"
+    )
+    .forEach(
+        (button) => {
+            button.addEventListener(
+                "click",
+                () => {
+                    const card =
+                        button.closest(
+                            ".cosmos-card"
+                        );
+
+                    if (!card) {
+                        return;
+                    }
+
+                    const title =
+                        card
+                            .querySelector(
+                                ".cosmos-card__title"
+                            )
+                            ?.textContent
+                            .trim();
+
+                    const detail =
+                        card.dataset.detail;
+
+                    if (
+                        title &&
+                        detail
+                    ) {
+                        openCosmosModal(
+                            title,
+                            detail
+                        );
+                    }
+                }
+            );
+        }
+    );
+
+if (cosmosModalClose) {
+    cosmosModalClose.addEventListener(
+        "click",
+        closeCosmosModal
+    );
+}
+
+if (cosmosModal) {
+    cosmosModal.addEventListener(
+        "click",
+        (event) => {
+            if (
+                event.target ===
+                cosmosModal
+            ) {
+                closeCosmosModal();
+            }
+        }
+    );
+}
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+document
+    .querySelectorAll(
+        ".contact-card__copy"
+    )
+    .forEach(
+        (button) => {
+            button.addEventListener(
+                "click",
+                async (event) => {
+                    event.preventDefault();
+
+                    const value =
+                        button.dataset.copy;
+
+                    if (!value) {
+                        return;
+                    }
+
+                    try {
+                        await navigator.clipboard.writeText(
+                            value
+                        );
+
+                        if (toast) {
+                            toast.textContent =
+                                "Скопировано: " +
+                                value;
+
+                            toast.classList.add(
+                                "toast--visible"
+                            );
+
+                            clearTimeout(
+                                toast._hideTimer
+                            );
+
+                            toast._hideTimer =
+                                setTimeout(
+                                    () => {
+                                        toast.classList.remove(
+                                            "toast--visible"
+                                        );
+                                    },
+                                    2000
+                                );
+                        }
+                    } catch (error) {
+                        const textarea =
+                            document.createElement(
+                                "textarea"
+                            );
+
+                        textarea.value =
+                            value;
+
+                        textarea.style.position =
+                            "fixed";
+
+                        textarea.style.opacity =
+                            "0";
+
+                        document.body.appendChild(
+                            textarea
+                        );
+
+                        textarea.select();
+
+                        try {
+                            document.execCommand(
+                                "copy"
+                            );
+                        } catch (copyError) {}
+
+                        textarea.remove();
+
+                        if (toast) {
+                            toast.textContent =
+                                "Скопировано: " +
+                                value;
+
+                            toast.classList.add(
+                                "toast--visible"
+                            );
+
+                            clearTimeout(
+                                toast._hideTimer
+                            );
+
+                            toast._hideTimer =
+                                setTimeout(
+                                    () => {
+                                        toast.classList.remove(
+                                            "toast--visible"
+                                        );
+                                    },
+                                    2000
+                                );
+                        }
+                    }
+                }
+            );
+        }
+    );
+
 function getPreloadResources() {
     const resources = [];
 
@@ -364,72 +885,86 @@ function getPreloadResources() {
         .querySelectorAll(
             "img[src]"
         )
-        .forEach((image) => {
-            resources.push(
-                image.currentSrc ||
+        .forEach(
+            (image) => {
+                resources.push(
+                    image.currentSrc ||
                     image.src
-            );
-        });
+                );
+            }
+        );
 
     document
         .querySelectorAll(
             "video[src]"
         )
-        .forEach((video) => {
-            resources.push(
-                video.currentSrc ||
+        .forEach(
+            (video) => {
+                resources.push(
+                    video.currentSrc ||
                     video.src
-            );
-        });
+                );
+            }
+        );
 
     document
         .querySelectorAll(
             "audio[src]"
         )
-        .forEach((audio) => {
-            resources.push(
-                audio.currentSrc ||
+        .forEach(
+            (audio) => {
+                resources.push(
+                    audio.currentSrc ||
                     audio.src
-            );
-        });
+                );
+            }
+        );
 
     document
         .querySelectorAll(
             "source[src]"
         )
-        .forEach((source) => {
-            resources.push(
-                source.src
-            );
-        });
+        .forEach(
+            (source) => {
+                resources.push(
+                    source.src
+                );
+            }
+        );
 
     document
         .querySelectorAll(
             "link[rel='stylesheet'][href]"
         )
-        .forEach((link) => {
-            resources.push(
-                link.href
-            );
-        });
+        .forEach(
+            (link) => {
+                resources.push(
+                    link.href
+                );
+            }
+        );
 
     document
         .querySelectorAll(
             "[data-preload]"
         )
-        .forEach((element) => {
-            if (
-                element.dataset.preload
-            ) {
-                resources.push(
+        .forEach(
+            (element) => {
+                if (
                     element.dataset.preload
-                );
+                ) {
+                    resources.push(
+                        element.dataset.preload
+                    );
+                }
             }
-        });
+        );
 
     return [
         ...new Set(
-            resources.filter(Boolean)
+            resources.filter(
+                Boolean
+            )
         )
     ];
 }
@@ -442,31 +977,41 @@ function updatePreloadProgress(
         total === 0
             ? 100
             : Math.round(
-                  (loaded / total) *
-                      100
-              );
+                (loaded / total) *
+                100
+            );
 
-    if (preloadProgressBar) {
+    if (
+        preloadProgressBar
+    ) {
         preloadProgressBar.style.width =
             `${progress}%`;
     }
 
-    if (preloadPercent) {
+    if (
+        preloadPercent
+    ) {
         preloadPercent.textContent =
             `${progress}%`;
     }
 }
 
-function preloadImage(url) {
+function preloadImage(
+    url
+) {
     return new Promise(
         (resolve) => {
             const image =
                 new Image();
 
-            image.onload = resolve;
-            image.onerror = resolve;
+            image.onload =
+                resolve;
 
-            image.src = url;
+            image.onerror =
+                resolve;
+
+            image.src =
+                url;
 
             if (
                 image.complete
@@ -477,9 +1022,13 @@ function preloadImage(url) {
     );
 }
 
-function preloadResource(url) {
+function preloadResource(
+    url
+) {
     if (
-        url.startsWith("data:")
+        url.startsWith(
+            "data:"
+        )
     ) {
         return Promise.resolve();
     }
@@ -489,29 +1038,42 @@ function preloadResource(url) {
 
     if (
         /\.(jpg|jpeg|png|gif|webp|avif|svg)(\?.*)?$/
-            .test(lowerUrl)
+            .test(
+                lowerUrl
+            )
     ) {
-        return preloadImage(url);
+        return preloadImage(
+            url
+        );
     }
 
     return new Promise(
         (resolve) => {
-            fetch(url, {
-                cache: "force-cache"
-            })
-                .then(() => {
-                    resolve();
-                })
-                .catch(() => {
-                    resolve();
-                });
+            fetch(
+                url,
+                {
+                    cache:
+                        "force-cache"
+                }
+            )
+                .then(
+                    () => {
+                        resolve();
+                    }
+                )
+                .catch(
+                    () => {
+                        resolve();
+                    }
+                );
         }
     );
 }
 
 async function startPreload() {
     if (!preloadScreen) {
-        preloadFinished = true;
+        preloadFinished =
+            true;
 
         return;
     }
@@ -526,10 +1088,14 @@ async function startPreload() {
         resources.length
     );
 
-    if (resources.length > 0) {
+    if (
+        resources.length > 0
+    ) {
         await Promise.all(
             resources.map(
-                async (resource) => {
+                async (
+                    resource
+                ) => {
                     await preloadResource(
                         resource
                     );
@@ -557,14 +1123,19 @@ async function startPreload() {
         resources.length
     );
 
-    preloadFinished = true;
+    preloadFinished =
+        true;
 
-    if (preloadPercent) {
+    if (
+        preloadPercent
+    ) {
         preloadPercent.textContent =
             "Готово";
     }
 
-    if (preloadEnter) {
+    if (
+        preloadEnter
+    ) {
         preloadEnter.disabled =
             false;
 
@@ -583,7 +1154,8 @@ function enterSite() {
     }
 
     if (bgMusic) {
-        bgMusic.volume = 0.5;
+        bgMusic.volume =
+            0.5;
 
         const playPromise =
             bgMusic.play();
@@ -607,9 +1179,16 @@ function enterSite() {
         "site--loaded"
     );
 
-    setTimeout(() => {
-        preloadScreen.remove();
-    }, 450);
+    setTimeout(
+        () => {
+            if (
+                preloadScreen
+            ) {
+                preloadScreen.remove();
+            }
+        },
+        450
+    );
 }
 
 if (preloadEnter) {
@@ -628,13 +1207,25 @@ const canvas =
 
 if (canvas) {
     const ctx =
-        canvas.getContext("2d");
+        canvas.getContext(
+            "2d"
+        );
+
+    const reduceMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
 
     let stars = [];
-    let shootingStar = null;
 
-    let width;
-    let height;
+    let shootingStar =
+        null;
+
+    let width =
+        0;
+
+    let height =
+        0;
 
     function resize() {
         width =
@@ -649,15 +1240,17 @@ if (canvas) {
             Math.min(
                 220,
                 Math.floor(
-                    (width * height) /
-                        9000
+                    (width *
+                        height) /
+                    9000
                 )
             );
 
         stars =
             Array.from(
                 {
-                    length: count
+                    length:
+                        count
                 },
                 () => ({
                     x:
@@ -724,7 +1317,9 @@ if (canvas) {
         }
     }
 
-    function draw(time) {
+    function draw(
+        time
+    ) {
         ctx.clearRect(
             0,
             0,
@@ -735,13 +1330,15 @@ if (canvas) {
         stars.forEach(
             (star) => {
                 const twinkle =
-                    star.baseAlpha +
-                    Math.sin(
-                        time *
-                            star.speed +
-                            star.phase
-                    ) *
-                        0.2;
+                    reduceMotion
+                        ? star.baseAlpha
+                        : star.baseAlpha +
+                          Math.sin(
+                              time *
+                                  star.speed +
+                              star.phase
+                          ) *
+                              0.2;
 
                 ctx.beginPath();
 
@@ -763,56 +1360,62 @@ if (canvas) {
             }
         );
 
-        maybeSpawnShootingStar();
-
-        if (shootingStar) {
-            shootingStar.x +=
-                shootingStar.vx;
-
-            shootingStar.y +=
-                shootingStar.vy;
-
-            shootingStar.life += 1;
-
-            const alpha =
-                1 -
-                shootingStar.life /
-                    shootingStar.maxLife;
-
-            ctx.beginPath();
-
-            ctx.strokeStyle =
-                `rgba(255, 255, 255, ${Math.max(
-                    0,
-                    alpha
-                )})`;
-
-            ctx.lineWidth = 1.5;
-
-            ctx.moveTo(
-                shootingStar.x,
-                shootingStar.y
-            );
-
-            ctx.lineTo(
-                shootingStar.x -
-                    shootingStar.vx *
-                        4,
-
-                shootingStar.y -
-                    shootingStar.vy *
-                        4
-            );
-
-            ctx.stroke();
+        if (
+            !reduceMotion
+        ) {
+            maybeSpawnShootingStar();
 
             if (
-                shootingStar.life >
-                    shootingStar.maxLife ||
-                shootingStar.y >
-                    height + 20
+                shootingStar
             ) {
-                shootingStar = null;
+                shootingStar.x +=
+                    shootingStar.vx;
+
+                shootingStar.y +=
+                    shootingStar.vy;
+
+                shootingStar.life +=
+                    1;
+
+                const alpha =
+                    1 -
+                    shootingStar.life /
+                        shootingStar.maxLife;
+
+                ctx.beginPath();
+
+                ctx.strokeStyle =
+                    `rgba(255, 255, 255, ${Math.max(
+                        0,
+                        alpha
+                    )})`;
+
+                ctx.lineWidth =
+                    1.5;
+
+                ctx.moveTo(
+                    shootingStar.x,
+                    shootingStar.y
+                );
+
+                ctx.lineTo(
+                    shootingStar.x -
+                        shootingStar.vx *
+                            4,
+                    shootingStar.y -
+                        shootingStar.vy *
+                            4
+                );
+
+                ctx.stroke();
+
+                if (
+                    shootingStar.life >
+                        shootingStar.maxLife
+                ) {
+                    shootingStar =
+                        null;
+                }
             }
         }
 
@@ -832,246 +1435,3 @@ if (canvas) {
         draw
     );
 }
-
-const factTitle =
-    document.getElementById(
-        "factTitle"
-    );
-
-const factText =
-    document.getElementById(
-        "factText"
-    );
-
-const factButton =
-    document.getElementById(
-        "factButton"
-    );
-
-const spaceFacts = [
-    {
-        q: "Один день на Венере длиннее её года",
-        a: "Венера вращается вокруг своей оси настолько медленно, что один оборот занимает 243 земных дня - больше, чем 225 дней, за которые она облетает Солнце."
-    },
-    {
-        q: "Свет от Солнца идёт до нас 8 минут",
-        a: "Расстояние от Солнца до Земли фотон преодолевает примерно за 8 минут 20 секунд."
-    },
-    {
-        q: "В космосе нет звука",
-        a: "Звук - это колебания частиц среды, а космос - почти идеальный вакуум."
-    },
-    {
-        q: "Нейтронная звезда невероятно плотная",
-        a: "Чайная ложка вещества нейтронной звезды весила бы на Земле около миллиарда тонн."
-    }
-];
-
-let lastFactIndex = -1;
-
-function showRandomFact() {
-    if (
-        !factTitle ||
-        !factText
-    ) {
-        return;
-    }
-
-    let index =
-        Math.floor(
-            Math.random() *
-                spaceFacts.length
-        );
-
-    while (
-        spaceFacts.length > 1 &&
-        index === lastFactIndex
-    ) {
-        index =
-            Math.floor(
-                Math.random() *
-                    spaceFacts.length
-            );
-    }
-
-    lastFactIndex = index;
-
-    factTitle.textContent =
-        spaceFacts[index].q;
-
-    factText.textContent =
-        spaceFacts[index].a;
-}
-
-if (factButton) {
-    factButton.addEventListener(
-        "click",
-        showRandomFact
-    );
-
-    showRandomFact();
-}
-
-const cosmosModal =
-    document.getElementById(
-        "cosmosModal"
-    );
-
-const cosmosModalTitle =
-    document.getElementById(
-        "cosmosModalTitle"
-    );
-
-const cosmosModalText =
-    document.getElementById(
-        "cosmosModalText"
-    );
-
-const cosmosModalClose =
-    document.getElementById(
-        "cosmosModalClose"
-    );
-
-function openCosmosModal(
-    title,
-    detail
-) {
-    if (!cosmosModal) {
-        return;
-    }
-
-    cosmosModalTitle.textContent =
-        title;
-
-    cosmosModalText.textContent =
-        detail;
-
-    cosmosModal.classList.add(
-        "modal--open"
-    );
-
-    document.body.style.overflow =
-        "hidden";
-}
-
-function closeCosmosModal() {
-    if (!cosmosModal) {
-        return;
-    }
-
-    cosmosModal.classList.remove(
-        "modal--open"
-    );
-
-    document.body.style.removeProperty(
-        "overflow"
-    );
-}
-
-document
-    .querySelectorAll(
-        ".cosmos-card__more"
-    )
-    .forEach((button) => {
-        button.addEventListener(
-            "click",
-            () => {
-                const card =
-                    button.closest(
-                        ".cosmos-card"
-                    );
-
-                const title =
-                    card
-                        ?.querySelector(
-                            ".cosmos-card__title"
-                        )
-                        ?.textContent.trim();
-
-                const detail =
-                    card?.dataset.detail;
-
-                if (
-                    title &&
-                    detail
-                ) {
-                    openCosmosModal(
-                        title,
-                        detail
-                    );
-                }
-            }
-        );
-    });
-
-if (cosmosModalClose) {
-    cosmosModalClose.addEventListener(
-        "click",
-        closeCosmosModal
-    );
-}
-
-if (cosmosModal) {
-    cosmosModal.addEventListener(
-        "click",
-        (event) => {
-            if (
-                event.target ===
-                cosmosModal
-            ) {
-                closeCosmosModal();
-            }
-        }
-    );
-}
-
-document
-    .querySelectorAll(
-        ".contact-card__copy"
-    )
-    .forEach((button) => {
-        button.addEventListener(
-            "click",
-            async (event) => {
-                event.preventDefault();
-
-                const value =
-                    button.dataset.copy;
-
-                try {
-                    await navigator.clipboard.writeText(
-                        value
-                    );
-
-                    const toast =
-                        document.getElementById(
-                            "toast"
-                        );
-
-                    if (toast) {
-                        toast.textContent =
-                            "Скопировано: " +
-                            value;
-
-                        toast.classList.add(
-                            "toast--visible"
-                        );
-
-                        clearTimeout(
-                            toast._hideTimer
-                        );
-
-                        toast._hideTimer =
-                            setTimeout(
-                                () => {
-                                    toast.classList.remove(
-                                        "toast--visible"
-                                    );
-                                },
-                                2000
-                            );
-                    }
-                } catch (error) {}
-            }
-        );
-    });
