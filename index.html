@@ -9,8 +9,45 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-
+    <audio
+        id="bg-music"
+        src="song.mp3"
+        preload="auto"
+        crossorigin="anonymous"
+        loop
+    ></audio>
 <body>
+    <div class="preload-screen" id="preloadScreen">
+        <div class="preload-screen__content">
+            <div class="preload-screen__logo">Z</div>
+
+            <div class="preload-screen__title">
+                Загрузка
+            </div>
+
+            <div class="preload-screen__progress">
+                <div
+                    class="preload-screen__progress-bar"
+                    id="preloadProgressBar"
+                ></div>
+            </div>
+
+            <div class="preload-screen__percent" id="preloadPercent">
+                0%
+            </div>
+
+            <button
+                class="preload-screen__button"
+                id="preloadEnter"
+                type="button"
+                disabled
+            >
+                Нажми, чтобы войти
+            </button>
+        </div>
+    </div>
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <header class="header">
         <a href="#home" class="header__logo" data-page="home">
@@ -30,11 +67,34 @@
                 Cosmos
             </a>
 
+            <a href="#facts" class="header__link" data-page="facts">
+                Facts
+            </a>
+
             <a href="#contact" class="header__link" data-page="contact">
                 Contact
             </a>
         </nav>
+
+        <button
+            class="header__toggle"
+            id="mobileToggle"
+            type="button"
+            aria-label="Открыть меню"
+            aria-expanded="false"
+            aria-controls="mobileNav"
+        >
+            <i data-lucide="menu"></i>
+        </button>
     </header>
+
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#home" class="header__link mobile-nav__link" data-page="home">Home</a>
+        <a href="#about" class="header__link mobile-nav__link" data-page="about">About</a>
+        <a href="#projects" class="header__link mobile-nav__link" data-page="projects">Cosmos</a>
+        <a href="#facts" class="header__link mobile-nav__link" data-page="facts">Facts</a>
+        <a href="#contact" class="header__link mobile-nav__link" data-page="contact">Contact</a>
+    </nav>
 
     <main class="site">
 
@@ -83,6 +143,7 @@
                         <strong class="stat__value">∞</strong>
                         <span class="stat__label">Неизвестное</span>
                     </div>
+
                 </div>
 
             </div>
@@ -107,7 +168,7 @@
 
                 <div class="about">
 
-                    <article class="glass-card glass-card--large">
+                    <article class="glass-card glass-card--large reveal">
                         <div class="glass-card__icon">
                             <i data-lucide="sparkles"></i>
                         </div>
@@ -121,21 +182,29 @@
                             Ночью можно просто посмотреть на небо
                             и увидеть огромное количество звёзд.
                         </p>
-                        
+
                         <p class="glass-card__text">
                             Мы видим только маленькую часть Вселенной.
                             Где-то очень далеко находятся другие звёзды,
                             планеты и галактики, о которых мы знаем очень мало.
                         </p>
-                        <img
-                            src="galaxy-1.png"
-                            alt="Galaxy"
-                            class="glass-card__image"
-                        >
+
+                        <p class="glass-card__text">
+                            Особенно интересно следить за снимками телескопов
+                            «Хаббл» и «Джеймс Уэбб» - каждый раз они показывают
+                            что-то, чего раньше никто не видел.
+                        </p>
+
+                        <div class="orbit-visual" aria-hidden="true">
+                            <div class="orbit-visual__core"></div>
+                            <div class="orbit-visual__ring orbit-visual__ring--1"><span></span></div>
+                            <div class="orbit-visual__ring orbit-visual__ring--2"><span></span></div>
+                            <div class="orbit-visual__ring orbit-visual__ring--3"><span></span></div>
+                        </div>
 
                     </article>
 
-                    <article class="glass-card">
+                    <article class="glass-card reveal">
                         <div class="glass-card__icon">
                             <i data-lucide="telescope"></i>
                         </div>
@@ -167,7 +236,7 @@
                         </ul>
                     </article>
 
-                    <article class="glass-card">
+                    <article class="glass-card reveal">
                         <div class="glass-card__icon">
                             <i data-lucide="moon"></i>
                         </div>
@@ -183,7 +252,7 @@
                         </p>
                     </article>
 
-                    <article class="glass-card">
+                    <article class="glass-card reveal">
                         <div class="glass-card__icon">
                             <i data-lucide="orbit"></i>
                         </div>
@@ -199,6 +268,65 @@
                         </p>
                     </article>
 
+                </div>
+
+                <div class="timeline">
+                    <div class="page__label">
+                        <span class="page__label-dot"></span>
+                        ХРОНОЛОГИЯ
+                    </div>
+
+                    <h3 class="timeline__title">Ключевые моменты освоения космоса</h3>
+
+                    <div class="timeline__list">
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">1957</span>
+                            <div class="timeline-item__body">
+                                <strong>Спутник-1</strong>
+                                <p>Первый искусственный спутник Земли - начало космической эры.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">1961</span>
+                            <div class="timeline-item__body">
+                                <strong>Полёт Юрия Гагарина</strong>
+                                <p>Первый полёт человека в космос на корабле «Восток-1».</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">1969</span>
+                            <div class="timeline-item__body">
+                                <strong>Высадка на Луну</strong>
+                                <p>Экипаж «Аполлона-11» впервые ступил на поверхность другого небесного тела.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">1990</span>
+                            <div class="timeline-item__body">
+                                <strong>Телескоп «Хаббл»</strong>
+                                <p>Выведен на орбиту и до сих пор передаёт снимки далёкого космоса.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">1998</span>
+                            <div class="timeline-item__body">
+                                <strong>Начало сборки МКС</strong>
+                                <p>Международная космическая станция стала домом для непрерывных исследований на орбите.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal">
+                            <span class="timeline-item__year">2021</span>
+                            <div class="timeline-item__body">
+                                <strong>Телескоп «Джеймс Уэбб»</strong>
+                                <p>Самый мощный космический телескоп заглянул дальше и глубже, чем когда-либо прежде.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -223,7 +351,7 @@
 
                 <div class="cosmos">
 
-                    <article class="cosmos-card">
+                    <article class="cosmos-card reveal" data-detail="Звёзды рождаются в гигантских облаках газа и пыли - туманностях. В ядре звезды идёт термоядерный синтез: водород превращается в гелий, выделяя огромное количество энергии в виде света и тепла. Судьба звезды зависит от её массы: маленькие звёзды, как Солнце, спокойно угасают, превращаясь в белых карликов, а массивные заканчивают жизнь взрывом сверхновой.">
                         <div class="cosmos-card__top">
                             <span class="cosmos-card__number">01</span>
                             <i data-lucide="sun"></i>
@@ -245,14 +373,21 @@
                             </p>
                         </div>
 
-                        <div class="cosmos-card__tags">
-                            <span>Свет</span>
-                            <span>Газ</span>
-                            <span>Энергия</span>
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>Свет</span>
+                                <span>Газ</span>
+                                <span>Энергия</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
                         </div>
                     </article>
 
-                    <article class="cosmos-card">
+                    <article class="cosmos-card reveal" data-detail="Галактики удерживаются вместе гравитацией и могут содержать от миллионов до триллионов звёзд. Млечный Путь - спиральная галактика диаметром около 100 000 световых лет, и наше Солнце - лишь одна из примерно 100-400 миллиардов звёзд в ней. В центре большинства галактик находится сверхмассивная чёрная дыра.">
                         <div class="cosmos-card__top">
                             <span class="cosmos-card__number">02</span>
                             <i data-lucide="circle-dot"></i>
@@ -273,13 +408,20 @@
                             </p>
                         </div>
 
-                        <div class="cosmos-card__tags">
-                            <span>Млечный Путь</span>
-                            <span>Звёзды</span>
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>Млечный Путь</span>
+                                <span>Звёзды</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
                         </div>
                     </article>
 
-                    <article class="cosmos-card">
+                    <article class="cosmos-card reveal" data-detail="Планеты не светятся сами - мы видим их благодаря отражённому свету звезды. В Солнечной системе восемь планет: четыре каменные (Меркурий, Венера, Земля, Марс) и четыре газовые и ледяные гиганты (Юпитер, Сатурн, Уран, Нептун). У некоторых планет десятки лун - например, у Юпитера их известно уже более 90.">
                         <div class="cosmos-card__top">
                             <span class="cosmos-card__number">03</span>
                             <i data-lucide="circle"></i>
@@ -300,14 +442,21 @@
                             </p>
                         </div>
 
-                        <div class="cosmos-card__tags">
-                            <span>Земля</span>
-                            <span>Марс</span>
-                            <span>Юпитер</span>
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>Земля</span>
+                                <span>Марс</span>
+                                <span>Юпитер</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
                         </div>
                     </article>
 
-                    <article class="cosmos-card">
+                    <article class="cosmos-card reveal" data-detail="Чёрная дыра образуется, когда очень массивная звезда коллапсирует под собственной гравитацией. Гравитация становится настолько сильной, что даже свет не может её покинуть - отсюда и название. Границу, за которой ничто не возвращается, называют горизонтом событий. В 2019 году учёные впервые получили изображение тени чёрной дыры.">
                         <div class="cosmos-card__top">
                             <span class="cosmos-card__number">04</span>
                             <i data-lucide="circle-dot-dashed"></i>
@@ -328,13 +477,127 @@
                             </p>
                         </div>
 
-                        <div class="cosmos-card__tags">
-                            <span>Гравитация</span>
-                            <span>Космос</span>
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>Гравитация</span>
+                                <span>Космос</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="cosmos-card reveal" data-detail="Экзопланеты - это планеты, вращающиеся вокруг других звёзд. На сегодняшний день подтверждено более 5 000 экзопланет. Особый интерес представляют планеты в «зоне обитаемости» звезды - там, где температура позволяет существовать жидкой воде. Телескоп «Кеплер» и миссия TESS открыли большинство известных экзопланет.">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">05</span>
+                            <i data-lucide="globe-2"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ДРУГИЕ МИРЫ
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Экзопланеты
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Планеты за пределами Солнечной системы.
+                                Некоторые из них могут находиться в зоне,
+                                пригодной для жизни.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>TESS</span>
+                                <span>Зона жизни</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="cosmos-card reveal" data-detail="Туманности - это гигантские облака газа и пыли в космосе. Одни туманности, как Туманность Ориона, являются «звёздными яслями», где рождаются новые звёзды. Другие - остатки взрыва сверхновой, как Крабовидная туманность. Их яркие цвета на фотографиях получаются благодаря свечению разных газов - водорода, кислорода и серы.">
+                        <div class="cosmos-card__top">
+                            <span class="cosmos-card__number">06</span>
+                            <i data-lucide="cloud"></i>
+                        </div>
+
+                        <div class="cosmos-card__body">
+                            <span class="cosmos-card__type">
+                                ОБЛАКА КОСМОСА
+                            </span>
+
+                            <h3 class="cosmos-card__title">
+                                Туманности
+                            </h3>
+
+                            <p class="cosmos-card__text">
+                                Облака газа и пыли, в которых рождаются
+                                новые звёзды или остаются следы старых.
+                            </p>
+                        </div>
+
+                        <div class="cosmos-card__bottom">
+                            <div class="cosmos-card__tags">
+                                <span>Орион</span>
+                                <span>Рождение звёзд</span>
+                            </div>
+
+                            <button class="cosmos-card__more" type="button">
+                                Подробнее
+                                <i data-lucide="arrow-right"></i>
+                            </button>
                         </div>
                     </article>
 
                 </div>
+
+            </div>
+        </section>
+
+        <section class="page" id="facts">
+            <div class="page__content">
+
+                <div class="page__heading">
+                    <div class="page__label">
+                        <span class="page__label-dot"></span>
+                        ФАКТЫ
+                    </div>
+
+                    <h2 class="page__subtitle">
+                        Немного удивительных
+                        <span class="page__subtitle-accent">
+                            фактов.
+                        </span>
+                    </h2>
+                </div>
+
+                <div class="fact-card fact-card--in">
+                    <div class="fact-card__icon">
+                        <i data-lucide="sparkle"></i>
+                    </div>
+
+                    <div class="fact-card__body">
+                        <h3 class="fact-card__title" id="factTitle">Загружаю факт…</h3>
+                        <p class="fact-card__text" id="factText"></p>
+                    </div>
+
+                    <button class="button button--glass fact-card__button" id="factButton" type="button">
+                        Другой факт
+                        <i data-lucide="shuffle"></i>
+                    </button>
+                </div>
+
+                <div class="facts-accordion" id="factsAccordion"></div>
 
             </div>
         </section>
@@ -364,71 +627,106 @@
 
                 <div class="contact">
 
-                    <a href="https://github.com/zeiren333"
-                    class="contact-card"
-                    target="_blank"
-                    rel="noopener noreferrer">
+                    <div class="contact-card">
+                        <a href="https://github.com/zeiren333"
+                        class="contact-card__link"
+                        target="_blank"
+                        rel="noopener noreferrer">
 
-                        <i data-lucide="github"></i>
+                            <i data-lucide="folder-git-2"></i>
 
-                        <div class="contact-card__content">
-                            <span class="contact-card__label">
-                                GitHub
-                            </span>
+                            <div class="contact-card__content">
+                                <span class="contact-card__label">
+                                    GitHub
+                                </span>
 
-                            <strong class="contact-card__value">
-                                zeiren333
-                            </strong>
-                        </div>
+                                <strong class="contact-card__value">
+                                    zeiren333
+                                </strong>
+                            </div>
+                        </a>
 
-                        <i data-lucide="arrow-up-right"></i>
-                    </a>
+                        <button class="contact-card__copy" type="button" data-copy="zeiren333" aria-label="Скопировать GitHub">
+                            <i data-lucide="copy"></i>
+                        </button>
 
-                    <a href="https://t.me/zeiren333larp"
-                    class="contact-card"
-                    target="_blank"
-                    rel="noopener noreferrer">
+                        <a href="https://github.com/zeiren333" class="contact-card__go" target="_blank" rel="noopener noreferrer" aria-label="Открыть GitHub">
+                            <i data-lucide="arrow-up-right"></i>
+                        </a>
+                    </div>
 
-                        <i data-lucide="send"></i>
+                    <div class="contact-card">
+                        <a href="https://t.me/zeiren333larp"
+                        class="contact-card__link"
+                        target="_blank"
+                        rel="noopener noreferrer">
 
-                        <div class="contact-card__content">
-                            <span class="contact-card__label">
-                                Telegram
-                            </span>
+                            <i data-lucide="send"></i>
 
-                            <strong class="contact-card__value">
-                                @zeiren333larp
-                            </strong>
-                        </div>
+                            <div class="contact-card__content">
+                                <span class="contact-card__label">
+                                    Telegram
+                                </span>
 
-                        <i data-lucide="arrow-up-right"></i>
-                    </a>
+                                <strong class="contact-card__value">
+                                    @zeiren333larp
+                                </strong>
+                            </div>
+                        </a>
 
-                    <a href="https://discord.com/users/1534202220931715145"
-                    class="contact-card"
-                    target="_blank"
-                    rel="noopener noreferrer">
+                        <button class="contact-card__copy" type="button" data-copy="@zeiren333larp" aria-label="Скопировать Telegram">
+                            <i data-lucide="copy"></i>
+                        </button>
 
-                        <i data-lucide="message-circle"></i>
+                        <a href="https://t.me/zeiren333larp" class="contact-card__go" target="_blank" rel="noopener noreferrer" aria-label="Открыть Telegram">
+                            <i data-lucide="arrow-up-right"></i>
+                        </a>
+                    </div>
 
-                        <div class="contact-card__content">
-                            <span class="contact-card__label">
-                                Discord
-                            </span>
+                    <div class="contact-card">
+                        <a href="https://discord.com/users/1534202220931715145"
+                        class="contact-card__link"
+                        target="_blank"
+                        rel="noopener noreferrer">
 
-                            <strong class="contact-card__value">
-                                zeiren333
-                            </strong>
-                        </div>
+                            <i data-lucide="message-circle"></i>
 
-                        <i data-lucide="arrow-up-right"></i>
-                    </a>
+                            <div class="contact-card__content">
+                                <span class="contact-card__label">
+                                    Discord
+                                </span>
+
+                                <strong class="contact-card__value">
+                                    zeiren333
+                                </strong>
+                            </div>
+                        </a>
+
+                        <button class="contact-card__copy" type="button" data-copy="zeiren333" aria-label="Скопировать Discord">
+                            <i data-lucide="copy"></i>
+                        </button>
+
+                        <a href="https://discord.com/users/1534202220931715145" class="contact-card__go" target="_blank" rel="noopener noreferrer" aria-label="Открыть Discord">
+                            <i data-lucide="arrow-up-right"></i>
+                        </a>
+                    </div>
 
                 </div>
             </div>
         </section>
 
     </main>
+
+    <div class="modal" id="cosmosModal">
+        <div class="modal__panel">
+            <button class="modal__close" id="cosmosModalClose" type="button" aria-label="Закрыть">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h3 class="modal__title" id="cosmosModalTitle"></h3>
+            <p class="modal__text" id="cosmosModalText"></p>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
